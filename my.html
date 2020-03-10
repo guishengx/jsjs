@@ -14,11 +14,8 @@
 </head>
 <body>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    
-	<div class="col-sm-9">
-		
-	</div>
-    
+	<div class="col-sm-9">		
+	</div>    
     <div>
         <div>
 			<button type="button" class="btn btn-default pull-right" id="daterange-btn">
@@ -41,9 +38,7 @@
         <div>
             <div id="main3" style="width: 600px;height:400px;"></div> 
             <div id="main2" style="width: 600px;height:400px;"></div> 
-            <div id="main" style="width: 600px;height:400px;"></div>
-        </div>
-        
+        </div>        
     </div>
     
     <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -74,322 +69,235 @@
 
     <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
         var myChart2 = echarts.init(document.getElementById('main2'));
         var myChart3 = echarts.init(document.getElementById('main3'));
         // 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: 'ECharts 入门示例'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter:'{c}%'　　　　
-             },
-            legend: {
-                data:['销量', '销量2']
-            },
-            xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-            },
-            yAxis: {  
-                        type: 'value',  
-                        axisLabel: {  
-                            show: true,  
-                            interval: 'auto',  
-                            formatter: '{value} %'  　//这是关键，在需要的地方加上就行了
-                            },  
-                        show: true  
-                    },
-            series: [{
-                name: '销量',
-                type: 'bar',
-                itemStyle: {
-                 normal: {
-                     color: function(params) {
-                         // build a color map as your need.
-                         var colorList = ['#C1232B','#B5C334','#FCCE10','#E87C25','#27727B','#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD','#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'];
-                         return colorList[params.dataIndex]
-                     },
-                     label: {
-                         show: true,
-                         position: 'top',
-                         formatter: '{b}\n{c}%'　　　　//这是关键，在需要的地方加上就行了
-                     }
-                 }
-             },
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-        };
-        var option3 = {
+        var optionCaseLine = {
             title: {
                 text: json2.key
             },
             tooltip: {},
             legend: {
-                data:['销量']
+                data:[]
             },
             xAxis: {
-                data: ["衬衫2","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                data: []
             },
             yAxis: {},
-            series: [{ name: '销量2', type: 'line', data: [15, 10, 50, 20, 20, 50]},
-                     { name: '销量3', type: 'bar', data: [5, 1, 5, 2, 2, 5]}]
+            series: []
         };
 
-        var d0 = [{name: '销量2', type: 'bar', data: [5, 1, 10, 22, 12, 9]}, 
-                    {name: '销量2', type: 'line', data: [5, 1, 10, 22, 12, 9]},
-                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
-
-        var d1 = [{name: '销量2', type: 'bar', data: [4, 3, 3, 20, 6, 5]},
-                    {name: '销量2', type: 'line', data: [4, 3, 3, 20, 6, 5]},
-                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
-        var d2 = [{name: '销量2', type: 'bar', data: [6, 4, 8, 12, 2, 15]},
-                    {name: '销量2', type: 'line', data: [6, 4, 8, 12, 2, 15]},
-                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
-        var d3 = [{name: '销量2', type: 'bar', data: [5, 7, 15, 8, 3, 8]},
-                    {name: '销量2', type: 'line', data: [5, 7, 15, 8, 3, 8]},
-                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
-        var d4 = [{name: '销量2', type: 'bar', data: [5, 17, 10, 6, 8, 18]},
-                    {name: '销量2', type: 'line', data: [5, 17, 10, 6, 8, 18]},
-                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
-        var d5 = [{name: '销量2', type: 'bar', data: [5, 27, 15, 5, 3, 10]},
-                    {name: '销量2', type: 'line', data: [5, 27, 15, 5, 3, 10]},
-                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
-
-        var bots = [d0, d1, d2, d3, d4, d5]
-        var cases = [d2, d3, d5, d1, d4, d0]
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-        myChart2.setOption(option3);
-
-        var xData = function() {
-            var data = [];
-            data.push("衬衫");
-            data.push("羊毛衫");
-            data.push("雪纺衫");
-            data.push("袜子");
-            data.push("裤子");
-            data.push("高跟鞋");
-            // for (var i = 1; i < 6; i++) {
-            //     data.push(i + "月份");
-            // }
-            return data;
-        }();
-
-var option4 = {
-    backgroundColor: "#344b58",
-    "title": {
-        "text": "Case Run Result Statistics",
-        x: "4%",
-        textStyle: {
-            color: '#fff',
-            fontSize: '12'
-        },
-       
-    },
-    "tooltip": {
-        "trigger": "axis",
-        "axisPointer": {
-            "type": "shadow",
-            textStyle: {
-                color: "#fff"
-            }
-
-        },
-    },
-    "grid": {
-        "borderWidth": 0,
-        "top": 110,
-        "bottom": 95,
-        textStyle: {
-            color: "#fff"
-        }
-    },
-    "legend": {
-        x: '4%',
-        top: '8%',
-        textStyle: {
-            color: '#90979c',
-        },
-        "data": ['Success', 'Failure', '平均']
-    },
-    "calculable": true,
-    "xAxis": [{
-        "type": "category",
-        "axisLine": {
-            lineStyle: {
-                color: '#90979c'
-            }
-        },
-        "splitLine": {
-            "show": false
-        },
-        "axisTick": {
-            "show": false
-        },
-        "splitArea": {
-            "show": false
-        },
-        "axisLabel": {
-            "interval": 0,
-        },
-        "data": xData,
-    }],
-    "yAxis": [{
-        "type": "value",
-        "splitLine": {
-            "show": false
-        },
-        "axisLine": {
-            lineStyle: {
-                color: '#90979c'
-            }
-        },
-        "axisTick": {
-            "show": false
-        },
-        "axisLabel": {
-            "interval": 0,
-            show: true,  
-            interval: 'auto',  
-            formatter: '{value} %' 
-
-        },
-        "splitArea": {
-            "show": false
-        },
-
-    }],
-    "series": [{
-            "name": "Success",
-            "type": "bar",
-            "stack": "总量",
-            "barMaxWidth": 35,
-            "barGap": "10%",
-            "itemStyle": {
-                "normal": {
-                    "color": "rgba(0,191,183,1)",
-                    "label": {
-                        "show": true,
-                        "textStyle": {
-                            "color": "#fff"
-                        },
-                        "position": "inside",
-                        formatter: function(p) {
-                            var a = p.value > 0 ? (p.value): '';     
-                            return a+"%";                       
-                        }
-                    }
-                }
-            },
-            "data": [],
-        },
-        {
-            "name": "Failure",
-            "type": "bar",
-            "stack": "总量",
-            "barMaxWidth": 35,
+        var optionTotal = {
+            backgroundColor: "#344b58",
+            "title": {
+                "text": "Case Run Result Statistics",
+                x: "4%",
+                textStyle: {
+                    color: '#fff',
+                    fontSize: '12'
+                },
             
-            "barGap": "10%",
-            "itemStyle": {
-                "normal": {
-                    "color": "rgba(255,144,128,1)",
-                    "barBorderRadius": 0,
-                    "label": {
-                        "show": true,
-                        "position": "inside",
-                        formatter: function(p) {
-                            var a = p.value > 0 ? (p.value): '';     
-                            return a+"%";
-                        }
+            },
+            "tooltip": {
+                "trigger": "axis",
+                "axisPointer": {
+                    "type": "shadow",
+                    textStyle: {
+                        color: "#fff"
                     }
+
+                },
+            },
+            "grid": {
+                "borderWidth": 0,
+                "top": 110,
+                "bottom": 95,
+                textStyle: {
+                    color: "#fff"
                 }
             },
-            "data": []
-        },]
-    }
+            "legend": {
+                x: '4%',
+                top: '8%',
+                textStyle: {
+                    color: '#90979c',
+                },
+                "data": ['Success', 'Failure']
+            },
+            "calculable": true,
+            "xAxis": [{
+                "type": "category",
+                "axisLine": {
+                    lineStyle: {
+                        color: '#90979c'
+                    }
+                },
+                "splitLine": {
+                    "show": false
+                },
+                "axisTick": {
+                    "show": false
+                },
+                "splitArea": {
+                    "show": false
+                },
+                "axisLabel": {
+                    "interval": 0,
+                },
+                "data": [],
+            }],
+            "yAxis": [{
+                "type": "value",
+                "splitLine": {
+                    "show": false
+                },
+                "axisLine": {
+                    lineStyle: {
+                        color: '#90979c'
+                    }
+                },
+                "axisTick": {
+                    "show": false
+                },
+                "axisLabel": {
+                    "interval": 0,
+                    show: true,  
+                    interval: 'auto',  
+                    formatter: '{value} %' 
 
-    var source = []
-    source.push({name:"Case 1", totalTimes:100, successTimes:[10,20,30,40,50,60,70]})
-    source.push({name:"Case 2", totalTimes:100, successTimes:[30,50,40,10,80,90,80]})
-    source.push({name:"Case 3", totalTimes:100, successTimes:[16,20,50,90,50,50,70]})
-    source.push({name:"Case 4", totalTimes:100, successTimes:[18,40,20,80,20,20,80]})
-    source.push({name:"Case 5", totalTimes:100, successTimes:[30,90,70,70,50,90,70]})
+                },
+                "splitArea": {
+                    "show": false
+                },
+            }],
+            "series": [{
+                    "name": "Success",
+                    "type": "bar",
+                    "stack": "总量",
+                    "barMaxWidth": 35,
+                    "barGap": "10%",
+                    "itemStyle": {
+                        "normal": {
+                            "color": "rgba(0,191,183,1)",
+                            "label": {
+                                "show": true,
+                                "textStyle": {
+                                    "color": "#fff"
+                                },
+                                "position": "inside",
+                                formatter: function(p) {
+                                    var a = p.value > 0 ? (p.value): '';     
+                                    return a+"%";                       
+                                }
+                            }
+                        }
+                    },
+                    "data": [],
+                },
+                {
+                    "name": "Failure",
+                    "type": "bar",
+                    "stack": "总量",
+                    "barMaxWidth": 35,
+                    
+                    "barGap": "10%",
+                    "itemStyle": {
+                        "normal": {
+                            "color": "rgba(255,144,128,1)",
+                            "barBorderRadius": 0,
+                            "label": {
+                                "show": true,
+                                "position": "inside",
+                                formatter: function(p) {
+                                    var a = p.value > 0 ? (p.value): '';     
+                                    return a+"%";
+                                }
+                            }
+                        }
+                    },
+                    "data": []
+                },]
+            }
 
-    var totalSource = []
-    for (let index = 0; index < source.length; index++) {
-        const src = source[index];
-        var title = src.name
-        var sum = eval(src.successTimes.join("+"));
-        var total = src.totalTimes * src.successTimes.length
-        totalSource.push({name:title, totalTimes:total, successTimes:sum})
-    }
-    totalSource = totalSource.sort(function(a, b) {
-        return a.successTimes - b.successTimes
-    })
+        // 原始数据源
+        var source = []
+        source.push({name:"Case 1", totalTimes:100, successTimes:[10,20,30,40,50,60,70]})
+        source.push({name:"Case 2", totalTimes:100, successTimes:[30,50,40,10,80,90,80]})
+        source.push({name:"Case 3", totalTimes:100, successTimes:[16,20,50,90,50,50,70]})
+        source.push({name:"Case 4", totalTimes:100, successTimes:[18,40,20,80,20,20,80]})
+        source.push({name:"Case 5", totalTimes:100, successTimes:[30,90,70,70,50,90,70]})
+        
+        // 处理第一张图数据源
+        var totalSource = []
+        for (let index = 0; index < source.length; index++) {
+            const src = source[index];
+            var title = src.name
+            var sum = eval(src.successTimes.join("+")); //求和
+            var total = src.totalTimes * src.successTimes.length
+            totalSource.push({name:title, totalTimes:total, successTimes:sum})
+        }
+        totalSource = totalSource.sort(function(a, b) {
+            return a.successTimes - b.successTimes
+        })
 
-    var successData = []
-    var failureData = []
-    var xAxisData = []
+        var successData = []
+        var failureData = []
+        var xAxisData = []
 
-    for (let index = 0; index < totalSource.length; index++) {
-        const successTimes = totalSource[index].successTimes;
-        const totalTimes = totalSource[index].totalTimes;
-        var successRate = Math.trunc(successTimes/totalTimes * 100)
-        var failureRate = 100 - successRate
-        successData.push(successRate)
-        failureData.push(failureRate)
-        xAxisData.push(totalSource[index].name)
-    }
+        for (let index = 0; index < totalSource.length; index++) {
+            const successTimes = totalSource[index].successTimes;
+            const totalTimes = totalSource[index].totalTimes;
+            var successRate = Math.trunc(successTimes/totalTimes * 100)
+            var failureRate = 100 - successRate
+            successData.push(successRate)
+            failureData.push(failureRate)
+            xAxisData.push(totalSource[index].name)
+        }
+        optionTotal.series[0].data = successData;
+        optionTotal.series[1].data = failureData;
+        optionTotal.xAxis[0].data = xAxisData
+        myChart3.setOption(optionTotal);
 
-    // var data0 = []
-    // var data1 = []
+        // 处理第二张图数据源
+        var xAxisLineData = []
+        var lineData = []
+        var legendData = []
+        for (let index = 0; index < source.length; index++) {
+            const src = source[index];
+            var title = src.name
+            lineData.push({name:title, type:'line', data:src.successTimes})
+            legendData.push(title)
+        }
+        for (let index = 0; index < source[0].successTimes.length; index++) {
+            xAxisLineData.push("Day "+index) // 横轴
+        }
+        optionCaseLine.xAxis.data = xAxisLineData
+        optionCaseLine.series = lineData
+        optionCaseLine.legend.data = legendData
+        myChart2.setOption(optionCaseLine);
     
 
-    // data0.push({name:"Case 1", value:50})
-    // data0.push({name:"Case 2", value:69})
-    // data0.push({name:"Case 3", value:54})
-    // data0.push({name:"Case 4", value:26})
-    // data0.push({name:"Case 5", value:37})
-    // data0 = data0.sort(function(a, b) {
-    //     return a.value - b.value
-    // })
-    
-    // for (let index = 0; index < data0.length; index++) {
-    //     const element = data0[index].value;
-    //     if(element > 0 && element <= 100) {
-    //         data1.push(100-element)
-    //     } else {
-    //         data1.push(0)
-    //     }
-    //     xAxisData.push(data0[index].name)
-    // }
-
-    option4.series[0].data = successData;
-    option4.series[1].data = failureData;
-    option4.xAxis[0].data = xAxisData
-    
         // 鼠标移动动作
         myChart3.on('mouseover', function (params) {
-            option3.title.text = params.name
-            if (params.name == "衬衫") {
-                option3.series = d0;
-            } else if (params.name == "羊毛衫") {
-                option3.series = d1;
-            } else if (params.name == "雪纺衫") {
-                option3.series = d2;
-            } else if (params.name == "袜子") {
-                option3.series = d3;
-            } else if (params.name == "裤子") {
-                option3.series = d4;
-            } else if (params.name == "高跟鞋") {
-                option3.series = d5;
+            var name = params.name
+            var singleLineData = []
+            for (let index = 0; index < source.length; index++) {
+                const src = source[index];
+                var title = src.name
+                if(name == title) {
+                    singleLineData.push({name:title, type:'line', data:src.successTimes})
+                    break
+                }                
             }
-            myChart2.setOption(option3);
+            optionCaseLine.series = singleLineData
+            myChart2.setOption(optionCaseLine, true);
         });
+        myChart3.on('mouseout', function (params) {
+            optionCaseLine.series = lineData
+            myChart2.setOption(optionCaseLine, true);
+        });
+
         $('#selector').change(function (e) {
-            // alert($('#selector').val());
             $("#selector1").empty();
             var sel0 =  $('#selector').val()
             if (sel0 == "bot") {
@@ -408,8 +316,6 @@ var option4 = {
                 myChart2.setOption(option3);
             }   
             
-            // option3.series = reg[$('#selector').val()];
-            // myChart2.setOption(option3);
         });
         $('#selector1').change(function (e) {
             // alert($('#selector').val());
@@ -423,9 +329,6 @@ var option4 = {
             option3.series = src[$('#selector1').val()];
             myChart2.setOption(option3);
         });
-myChart3.setOption(option4);
-
-
     </script>
 </body>
 </html>
