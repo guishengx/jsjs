@@ -268,14 +268,13 @@
             lineData.push({name:title, type:'line', data:src.successTimes})
             legendData.push(title)
         }
-        for (let index = 0; index < source[0].successTimes.length; index++) {
+        for (let index = 1; index <= source[0].successTimes.length; index++) {
             xAxisLineData.push("Day "+index) // 横轴
         }
         optionCaseLine.xAxis.data = xAxisLineData
         optionCaseLine.series = lineData
         optionCaseLine.legend.data = legendData
-        myChart2.setOption(optionCaseLine);
-    
+        myChart2.setOption(optionCaseLine);    
 
         // 鼠标移动动作
         myChart3.on('mouseover', function (params) {
@@ -290,10 +289,12 @@
                 }                
             }
             optionCaseLine.series = singleLineData
+            optionCaseLine.legend.data = [name]
             myChart2.setOption(optionCaseLine, true);
         });
         myChart3.on('mouseout', function (params) {
             optionCaseLine.series = lineData
+            optionCaseLine.legend.data = legendData
             myChart2.setOption(optionCaseLine, true);
         });
 
