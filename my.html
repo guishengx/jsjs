@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/daterangepicker.css">
+
+    <!-- 引入 echarts.js -->
+    <script src="jquery.js"></script>
+    <script type="text/javascript" src="echarts.js"></script>
+    <script src="package.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    
+	<div class="col-sm-9">
+		
+	</div>
+    
+    <div>
+        <div>
+			<button type="button" class="btn btn-default pull-right" id="daterange-btn">
+				<span>
+				  <i class="fa fa-calendar"></i> 日期选择
+				</span>
+				<i class="fa fa-caret-down"></i>
+			  </button>
+		</div>
+        <select id="selector">
+            <option value="bot">By BOT</option>
+            <option value="case">By Process</option>
+        </select>
+        <select id="selector1">
+            <option value="1">BOT-1</option>
+            <option value="2">BOT-2</option>
+            <option value="3">BOT-3</option>
+            <option value="4">BOT-4</option>
+        </select>
+        <div>
+            <div id="main3" style="width: 600px;height:400px;"></div> 
+            <div id="main2" style="width: 600px;height:400px;"></div> 
+            <div id="main" style="width: 600px;height:400px;"></div>
+        </div>
+        
+    </div>
+    
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/daterangepicker.js"></script>
+    <script type="text/javascript">
+        $('#daterange-btn').daterangepicker({
+                ranges: {
+                    '今天': [moment(), moment()],
+                    '本周': [moment().startOf('week'), moment().endOf('week')],
+                    '本月': [moment().startOf('month'), moment().endOf('month')],
+                    '今年': [moment().startOf('year'), moment().endOf('year')]
+                },
+                startDate: moment(),
+                endDate: moment().endOf('month')
+            },
+            function(start, end) {
+                $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                alert(start.format('YYYYMMDD') + " " + end.format('YYYYMMDD'));
+            }
+        );
+
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true
+        });
+    </script>
+
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var myChart2 = echarts.init(document.getElementById('main2'));
+        var myChart3 = echarts.init(document.getElementById('main3'));
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter:'{c}%'　　　　
+             },
+            legend: {
+                data:['销量', '销量2']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {  
+                        type: 'value',  
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  　//这是关键，在需要的地方加上就行了
+                            },  
+                        show: true  
+                    },
+            series: [{
+                name: '销量',
+                type: 'bar',
+                itemStyle: {
+                 normal: {
+                     color: function(params) {
+                         // build a color map as your need.
+                         var colorList = ['#C1232B','#B5C334','#FCCE10','#E87C25','#27727B','#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD','#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'];
+                         return colorList[params.dataIndex]
+                     },
+                     label: {
+                         show: true,
+                         position: 'top',
+                         formatter: '{b}\n{c}%'　　　　//这是关键，在需要的地方加上就行了
+                     }
+                 }
+             },
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+        var option3 = {
+            title: {
+                text: json2.key
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫2","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{ name: '销量2', type: 'line', data: [15, 10, 50, 20, 20, 50]},
+                     { name: '销量3', type: 'bar', data: [5, 1, 5, 2, 2, 5]}]
+        };
+
+        var d0 = [{name: '销量2', type: 'bar', data: [5, 1, 10, 22, 12, 9]}, 
+                    {name: '销量2', type: 'line', data: [5, 1, 10, 22, 12, 9]},
+                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
+
+        var d1 = [{name: '销量2', type: 'bar', data: [4, 3, 3, 20, 6, 5]},
+                    {name: '销量2', type: 'line', data: [4, 3, 3, 20, 6, 5]},
+                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
+        var d2 = [{name: '销量2', type: 'bar', data: [6, 4, 8, 12, 2, 15]},
+                    {name: '销量2', type: 'line', data: [6, 4, 8, 12, 2, 15]},
+                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
+        var d3 = [{name: '销量2', type: 'bar', data: [5, 7, 15, 8, 3, 8]},
+                    {name: '销量2', type: 'line', data: [5, 7, 15, 8, 3, 8]},
+                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
+        var d4 = [{name: '销量2', type: 'bar', data: [5, 17, 10, 6, 8, 18]},
+                    {name: '销量2', type: 'line', data: [5, 17, 10, 6, 8, 18]},
+                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
+        var d5 = [{name: '销量2', type: 'bar', data: [5, 27, 15, 5, 3, 10]},
+                    {name: '销量2', type: 'line', data: [5, 27, 15, 5, 3, 10]},
+                    {name: '销量3',type: 'bar',data: [5, 1, 5, 2, 2, 5]}]
+
+        var bots = [d0, d1, d2, d3, d4, d5]
+        var cases = [d2, d3, d5, d1, d4, d0]
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        myChart2.setOption(option3);
+        // 鼠标点击动作
+        // myChart.on('click', function (params) {
+        //     option3.title.text = params.name
+        //     if (params.name == "衬衫") {
+        //         option3.series = d0;
+        //     } else if (params.name == "羊毛衫") {
+        //         option3.series = d1;
+        //     } else if (params.name == "雪纺衫") {
+        //         option3.series = d2;
+        //     } else if (params.name == "袜子") {
+        //         option3.series = d3;
+        //     } else if (params.name == "裤子") {
+        //         option3.series = d4;
+        //     } else if (params.name == "高跟鞋") {
+        //         option3.series = d5;
+        //     }
+        //     myChart2.setOption(option3);
+        // });
+        
+
+        var xData = function() {
+            var data = [];
+            data.push("衬衫");
+            data.push("羊毛衫");
+            data.push("雪纺衫");
+            data.push("袜子");
+            data.push("裤子");
+            data.push("高跟鞋");
+            // for (var i = 1; i < 6; i++) {
+            //     data.push(i + "月份");
+            // }
+            return data;
+        }();
+
+var option4 = {
+    backgroundColor: "#344b58",
+    "title": {
+        "text": "本年商场顾客男女人数统计",
+        x: "4%",
+
+        textStyle: {
+            color: '#fff',
+            fontSize: '12'
+        },
+       
+    },
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow",
+            textStyle: {
+                color: "#fff"
+            }
+
+        },
+    },
+    "grid": {
+        "borderWidth": 0,
+        "top": 110,
+        "bottom": 95,
+        textStyle: {
+            color: "#fff"
+        }
+    },
+    "legend": {
+        x: '4%',
+        top: '8%',
+        textStyle: {
+            color: '#90979c',
+        },
+        "data": ['女', '男', '平均']
+    },
+     
+
+    "calculable": true,
+    "xAxis": [{
+        "type": "category",
+        "axisLine": {
+            lineStyle: {
+                color: '#90979c'
+            }
+        },
+        "splitLine": {
+            "show": false
+        },
+        "axisTick": {
+            "show": false
+        },
+        "splitArea": {
+            "show": false
+        },
+        "axisLabel": {
+            "interval": 0,
+
+        },
+        "data": xData,
+    }],
+    "yAxis": [{
+        "type": "value",
+        "splitLine": {
+            "show": false
+        },
+        "axisLine": {
+            lineStyle: {
+                color: '#90979c'
+            }
+        },
+        "axisTick": {
+            "show": false
+        },
+        "axisLabel": {
+            "interval": 0,
+            show: true,  
+            interval: 'auto',  
+            formatter: '{value} %' 
+
+        },
+        "splitArea": {
+            "show": false
+        },
+
+    }],
+    "series": [{
+            "name": "女",
+            "type": "bar",
+            "stack": "总量",
+            "barMaxWidth": 35,
+            "barGap": "10%",
+            "itemStyle": {
+                "normal": {
+                    "color": "rgba(255,144,128,1)",
+                    "label": {
+                        "show": true,
+                        "textStyle": {
+                            "color": "#fff"
+                        },
+                        "position": "inside",
+                        formatter: function(p) {
+                            var a = p.value > 0 ? (p.value): '';     
+                            return a+"%";                       
+                        }
+                    }
+                    // label: {
+                    //      show: true,
+                    //      position: 'top',
+                    //      formatter: '{b}\n{c}%'　　　　//这是关键，在需要的地方加上就行了
+                    //  }
+                }
+            },
+            "data": [],
+        },
+
+        {
+            "name": "男",
+            "type": "bar",
+            "stack": "总量",
+            "itemStyle": {
+                "normal": {
+                    "color": "rgba(0,191,183,1)",
+                    "barBorderRadius": 0,
+                    "label": {
+                        "show": true,
+                        "position": "inside",
+                        formatter: function(p) {
+                            var a = p.value > 0 ? (p.value): '';     
+                            return a+"%";
+                        }
+                    }
+                }
+            },
+            "data": []
+        },]
+    }
+
+    var data0 = [50, 19, 24, 26, 17, 14, 15, 32, 52, 33, 24, 40 ]
+    var data1 = []
+    for (let index = 0; index < data0.length; index++) {
+        const element = data0[index];
+        if(element > 0 && element <= 100) {
+            data1.push(100-element)
+        } else {
+            data1.push(0)
+        }
+    }
+    option4.series[0].data = data0;
+    option4.series[1].data = data1;
+        // 鼠标移动动作
+        myChart3.on('mouseover', function (params) {
+            option3.title.text = params.name
+            if (params.name == "衬衫") {
+                option3.series = d0;
+            } else if (params.name == "羊毛衫") {
+                option3.series = d1;
+            } else if (params.name == "雪纺衫") {
+                option3.series = d2;
+            } else if (params.name == "袜子") {
+                option3.series = d3;
+            } else if (params.name == "裤子") {
+                option3.series = d4;
+            } else if (params.name == "高跟鞋") {
+                option3.series = d5;
+            }
+            myChart2.setOption(option3);
+        });
+        $('#selector').change(function (e) {
+            // alert($('#selector').val());
+            $("#selector1").empty();
+            var sel0 =  $('#selector').val()
+            if (sel0 == "bot") {
+                $("#selector1").append("<option value='1'>BOT-1</option>");
+                $("#selector1").append("<option value='2'>BOT-2</option>");
+                $("#selector1").append("<option value='3'>BOT-3</option>");
+                $("#selector1").append("<option value='4'>BOT-4</option>");
+                option3.series = bots[0];
+                myChart2.setOption(option3);
+            } else if (sel0 == "case") {
+                $("#selector1").append("<option value='1'>CASE-1</option>");
+                $("#selector1").append("<option value='2'>CASE-2</option>");
+                $("#selector1").append("<option value='3'>CASE-3</option>");
+                $("#selector1").append("<option value='4'>CASE-4</option>");
+                option3.series = cases[0];
+                myChart2.setOption(option3);
+            }   
+            
+            // option3.series = reg[$('#selector').val()];
+            // myChart2.setOption(option3);
+        });
+        $('#selector1').change(function (e) {
+            // alert($('#selector').val());
+            var sel0 =  $('#selector').val()
+            var src = bots
+            if (sel0 == "bot") {
+                src = bots
+            } else if (sel0 == "case") {
+                src = cases
+            }
+            option3.series = src[$('#selector1').val()];
+            myChart2.setOption(option3);
+        });
+myChart3.setOption(option4);
+
+
+    </script>
+</body>
+</html>
