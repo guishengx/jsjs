@@ -162,25 +162,6 @@
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
         myChart2.setOption(option3);
-        // 鼠标点击动作
-        // myChart.on('click', function (params) {
-        //     option3.title.text = params.name
-        //     if (params.name == "衬衫") {
-        //         option3.series = d0;
-        //     } else if (params.name == "羊毛衫") {
-        //         option3.series = d1;
-        //     } else if (params.name == "雪纺衫") {
-        //         option3.series = d2;
-        //     } else if (params.name == "袜子") {
-        //         option3.series = d3;
-        //     } else if (params.name == "裤子") {
-        //         option3.series = d4;
-        //     } else if (params.name == "高跟鞋") {
-        //         option3.series = d5;
-        //     }
-        //     myChart2.setOption(option3);
-        // });
-        
 
         var xData = function() {
             var data = [];
@@ -199,9 +180,8 @@
 var option4 = {
     backgroundColor: "#344b58",
     "title": {
-        "text": "本年商场顾客男女人数统计",
+        "text": "Case Run Result Statistics",
         x: "4%",
-
         textStyle: {
             color: '#fff',
             fontSize: '12'
@@ -232,10 +212,8 @@ var option4 = {
         textStyle: {
             color: '#90979c',
         },
-        "data": ['女', '男', '平均']
+        "data": ['Success', 'Failure', '平均']
     },
-     
-
     "calculable": true,
     "xAxis": [{
         "type": "category",
@@ -255,7 +233,6 @@ var option4 = {
         },
         "axisLabel": {
             "interval": 0,
-
         },
         "data": xData,
     }],
@@ -285,14 +262,14 @@ var option4 = {
 
     }],
     "series": [{
-            "name": "女",
+            "name": "Success",
             "type": "bar",
             "stack": "总量",
             "barMaxWidth": 35,
             "barGap": "10%",
             "itemStyle": {
                 "normal": {
-                    "color": "rgba(255,144,128,1)",
+                    "color": "rgba(0,191,183,1)",
                     "label": {
                         "show": true,
                         "textStyle": {
@@ -304,23 +281,20 @@ var option4 = {
                             return a+"%";                       
                         }
                     }
-                    // label: {
-                    //      show: true,
-                    //      position: 'top',
-                    //      formatter: '{b}\n{c}%'　　　　//这是关键，在需要的地方加上就行了
-                    //  }
                 }
             },
             "data": [],
         },
-
         {
-            "name": "男",
+            "name": "Failure",
             "type": "bar",
             "stack": "总量",
+            "barMaxWidth": 35,
+            
+            "barGap": "10%",
             "itemStyle": {
                 "normal": {
-                    "color": "rgba(0,191,183,1)",
+                    "color": "rgba(255,144,128,1)",
                     "barBorderRadius": 0,
                     "label": {
                         "show": true,
@@ -336,18 +310,66 @@ var option4 = {
         },]
     }
 
-    var data0 = [50, 19, 24, 26, 17, 14, 15, 32, 52, 33, 24, 40 ]
-    var data1 = []
-    for (let index = 0; index < data0.length; index++) {
-        const element = data0[index];
-        if(element > 0 && element <= 100) {
-            data1.push(100-element)
-        } else {
-            data1.push(0)
-        }
+    var source = []
+    source.push({name:"Case 1", totalTimes:100, successTimes:[10,20,30,40,50,60,70]})
+    source.push({name:"Case 2", totalTimes:100, successTimes:[30,50,40,10,80,90,80]})
+    source.push({name:"Case 3", totalTimes:100, successTimes:[16,20,50,90,50,50,70]})
+    source.push({name:"Case 4", totalTimes:100, successTimes:[18,40,20,80,20,20,80]})
+    source.push({name:"Case 5", totalTimes:100, successTimes:[30,90,70,70,50,90,70]})
+
+    var totalSource = []
+    for (let index = 0; index < source.length; index++) {
+        const src = source[index];
+        var title = src.name
+        var sum = eval(src.successTimes.join("+"));
+        var total = src.totalTimes * src.successTimes.length
+        totalSource.push({name:title, totalTimes:total, successTimes:sum})
     }
-    option4.series[0].data = data0;
-    option4.series[1].data = data1;
+    totalSource = totalSource.sort(function(a, b) {
+        return a.successTimes - b.successTimes
+    })
+
+    var successData = []
+    var failureData = []
+    var xAxisData = []
+
+    for (let index = 0; index < totalSource.length; index++) {
+        const successTimes = totalSource[index].successTimes;
+        const totalTimes = totalSource[index].totalTimes;
+        var successRate = Math.trunc(successTimes/totalTimes * 100)
+        var failureRate = 100 - successRate
+        successData.push(successRate)
+        failureData.push(failureRate)
+        xAxisData.push(totalSource[index].name)
+    }
+
+    // var data0 = []
+    // var data1 = []
+    
+
+    // data0.push({name:"Case 1", value:50})
+    // data0.push({name:"Case 2", value:69})
+    // data0.push({name:"Case 3", value:54})
+    // data0.push({name:"Case 4", value:26})
+    // data0.push({name:"Case 5", value:37})
+    // data0 = data0.sort(function(a, b) {
+    //     return a.value - b.value
+    // })
+    
+    // for (let index = 0; index < data0.length; index++) {
+    //     const element = data0[index].value;
+    //     if(element > 0 && element <= 100) {
+    //         data1.push(100-element)
+    //     } else {
+    //         data1.push(0)
+    //     }
+    //     xAxisData.push(data0[index].name)
+    // }
+
+    option4.series[0].data = successData;
+    option4.series[1].data = failureData;
+    option4.xAxis[0].data = xAxisData
+    
         // 鼠标移动动作
         myChart3.on('mouseover', function (params) {
             option3.title.text = params.name
