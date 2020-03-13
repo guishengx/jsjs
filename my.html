@@ -36,8 +36,8 @@
             <option value="4">BOT-4</option>
         </select>
         <div>
-            <div id="main3" style="width: 600px;height:400px;"></div> 
-            <div id="main2" style="width: 600px;height:400px;"></div> 
+            <div id="barlineChart" style="width: 900px;height:400px;"></div> 
+            <div id="linelineChart" style="width: 900px;height:400px;"></div> 
         </div>        
     </div>
     
@@ -60,7 +60,6 @@
                 alert(start.format('YYYYMMDD') + " " + end.format('YYYYMMDD'));
             }
         );
-
         //Date picker
         $('#datepicker').datepicker({
             autoclose: true
@@ -69,12 +68,13 @@
 
     <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart2 = echarts.init(document.getElementById('main2'));
-        var myChart3 = echarts.init(document.getElementById('main3'));
+        var barChart = echarts.init(document.getElementById('barlineChart'));
+        var lineChart = echarts.init(document.getElementById('linelineChart'));
+        
         // 指定图表的配置项和数据
         var optionCaseLine = {
             title: {
-                text: json2.key
+                text: "case"
             },
             tooltip: {},
             legend: {
@@ -88,12 +88,11 @@
         };
 
         var optionTotal = {
-            backgroundColor: "#344b58",
-            "title": {
+            title: {
                 "text": "Case Run Result Statistics",
                 x: "4%",
                 textStyle: {
-                    color: '#fff',
+                    color: '#000',
                     fontSize: '12'
                 },
             
@@ -105,7 +104,6 @@
                     textStyle: {
                         color: "#fff"
                     }
-
                 },
             },
             "grid": {
@@ -163,7 +161,7 @@
                     "interval": 0,
                     show: true,  
                     interval: 'auto',  
-                    formatter: '{value} %' 
+                    formatter: '{value}%' 
 
                 },
                 "splitArea": {
@@ -198,8 +196,7 @@
                     "name": "Failure",
                     "type": "bar",
                     "stack": "总量",
-                    "barMaxWidth": 35,
-                    
+                    "barMaxWidth": 35,                    
                     "barGap": "10%",
                     "itemStyle": {
                         "normal": {
@@ -221,19 +218,59 @@
 
         // 原始数据源
         var source = []
-        source.push({name:"Case 1", totalTimes:100, successTimes:[10,20,30,40,50,60,70]})
-        source.push({name:"Case 2", totalTimes:100, successTimes:[30,50,40,10,80,90,80]})
-        source.push({name:"Case 3", totalTimes:100, successTimes:[16,20,50,90,50,50,70]})
-        source.push({name:"Case 4", totalTimes:100, successTimes:[18,40,20,80,20,20,80]})
-        source.push({name:"Case 5", totalTimes:100, successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case 1", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[10,20,30,40,50,60,70]})
+        source.push({case:"Case 1", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[10,20,30,40,50,60,70]})
+        source.push({case:"Case 1", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[10,20,30,40,50,60,70]})
+        source.push({case:"Case 2", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,50,40,10,80,90,80]})
+        source.push({case:"Case 2", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,50,40,10,80,90,80]})
+        source.push({case:"Case 2", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,50,40,10,80,90,80]})
+        source.push({case:"Case 3", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[16,20,50,90,50,50,70]})
+        source.push({case:"Case 3", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[16,20,50,90,50,50,70]})
+        source.push({case:"Case 3", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[16,20,50,90,50,50,70]})
+        source.push({case:"Case 4", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[18,40,20,80,20,20,80]})
+        source.push({case:"Case 4", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[18,40,20,80,20,20,80]})
+        source.push({case:"Case 4", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[18,40,20,80,20,20,80]})
+        source.push({case:"Case 5", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case 5", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case 5", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case 6", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case 6", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case 6", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+
+        var allCases = {}
+        var allBots = {}
+        for (let index = 0; index < source.length; index++) {
+            const src = source[index];
+            var cs = src.case
+            var bot = src.bot
+            allCases[cs] = '1'
+            allBots[bot] = '1'
+        }
+
+        let length= Object.keys(allBots).length
+        if (length > 0) {
+            $("#selector").empty();
+            $("#selector").append("<option value='bot'>By Bot</option>");
+            $("#selector").append("<option value='case'>By Process</option>");
+
+            $("#selector1").empty();
+            for (const bot in allBots) {   
+                $("#selector1").append("<option value="+bot+">"+bot+"</option>");
+            }
+            
+            
+            for (let index = 0; index < allBots.length; index++) {
+                const element = array[index];
+            }            
+        }
         
         // 处理第一张图数据源
         var totalSource = []
         for (let index = 0; index < source.length; index++) {
             const src = source[index];
-            var title = src.name
+            var title = src.case
             var sum = eval(src.successTimes.join("+")); //求和
-            var total = src.totalTimes * src.successTimes.length
+            var total = eval(src.totalTimes.join("+"));
             totalSource.push({name:title, totalTimes:total, successTimes:sum})
         }
         totalSource = totalSource.sort(function(a, b) {
@@ -256,7 +293,12 @@
         optionTotal.series[0].data = successData;
         optionTotal.series[1].data = failureData;
         optionTotal.xAxis[0].data = xAxisData
-        myChart3.setOption(optionTotal);
+        barChart.setOption(optionTotal);
+
+        function renderBarChartByBot(bot) {
+            optionTotal.series = datas
+            barChart.setOption(optionTotal)
+        }
 
         // 处理第二张图数据源
         var xAxisLineData = []
@@ -264,7 +306,7 @@
         var legendData = []
         for (let index = 0; index < source.length; index++) {
             const src = source[index];
-            var title = src.name
+            var title = src.case
             lineData.push({name:title, type:'line', data:src.successTimes})
             legendData.push(title)
         }
@@ -274,15 +316,25 @@
         optionCaseLine.xAxis.data = xAxisLineData
         optionCaseLine.series = lineData
         optionCaseLine.legend.data = legendData
-        myChart2.setOption(optionCaseLine);    
+        // lineChart.setOption(optionCaseLine);    
+
+
+        
+        function renderLineChart(chart, datas) {
+            // var option = lineChart.getOption()
+            optionCaseLine.series = datas
+            lineChart.setOption(optionCaseLine)
+        }
+
+        renderLineChart(optionCaseLine, lineData)
 
         // 鼠标移动动作
-        myChart3.on('mouseover', function (params) {
+        barChart.on('mouseover', function (params) {
             var name = params.name
             var singleLineData = []
             for (let index = 0; index < source.length; index++) {
                 const src = source[index];
-                var title = src.name
+                var title = src.case
                 if(name == title) {
                     singleLineData.push({name:title, type:'line', data:src.successTimes})
                     break
@@ -290,13 +342,14 @@
             }
             optionCaseLine.series = singleLineData
             optionCaseLine.legend.data = [name]
-            myChart2.setOption(optionCaseLine, true);
+            lineChart.setOption(optionCaseLine, true);
         });
-        myChart3.on('mouseout', function (params) {
+        barChart.on('mouseout', function (params) {
             optionCaseLine.series = lineData
             optionCaseLine.legend.data = legendData
-            myChart2.setOption(optionCaseLine, true);
+            lineChart.setOption(optionCaseLine, true);
         });
+
 
         $('#selector').change(function (e) {
             $("#selector1").empty();
@@ -307,19 +360,18 @@
                 $("#selector1").append("<option value='3'>BOT-3</option>");
                 $("#selector1").append("<option value='4'>BOT-4</option>");
                 option3.series = bots[0];
-                myChart2.setOption(option3);
+                lineChart.setOption(optionCaseLine);
             } else if (sel0 == "case") {
                 $("#selector1").append("<option value='1'>CASE-1</option>");
                 $("#selector1").append("<option value='2'>CASE-2</option>");
                 $("#selector1").append("<option value='3'>CASE-3</option>");
                 $("#selector1").append("<option value='4'>CASE-4</option>");
                 option3.series = cases[0];
-                myChart2.setOption(option3);
+                lineChart.setOption(optionCaseLine);
             }   
             
         });
         $('#selector1').change(function (e) {
-            // alert($('#selector').val());
             var sel0 =  $('#selector').val()
             var src = bots
             if (sel0 == "bot") {
@@ -327,8 +379,8 @@
             } else if (sel0 == "case") {
                 src = cases
             }
-            option3.series = src[$('#selector1').val()];
-            myChart2.setOption(option3);
+            optionCaseLine.series = src[$('#selector1').val()];
+            lineChart.setOption(optionCaseLine);
         });
     </script>
 </body>
