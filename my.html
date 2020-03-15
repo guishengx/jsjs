@@ -33,11 +33,11 @@
                 <option value="4">BOT-4</option>
             </select>
             <div class="container"  class="child">
-                <select id="demo" multiple="multiple" >
+                <select id="ckselector" multiple="multiple" >
                     <option value="cp">C++</option>
-                        <option value="cs">C#</option>
-                        <option value="oc">Object C</option>
-                        <option value="c">C</option>
+                    <option value="cs">C#</option>
+                    <option value="oc">Object C</option>
+                    <option value="c">C</option>
                 </select>
             </div>
             <!-- <div class="child">
@@ -59,7 +59,11 @@
     </div>
     
     <script>
-        $(function() { $('#demo').fSelect(); });
+        $(function() { $('#ckselector').fSelect(); });
+        $('#ckselector').change(function (e) {
+            var sel0 =  $('#ckselector').val()
+            console.log("==="+ sel0)
+        })
     </script>
     <script type="text/javascript">
         $('#daterange-btn').daterangepicker({
