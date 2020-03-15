@@ -189,7 +189,7 @@
                     "type": "bar",
                     "stack": "总量",
                     "barMaxWidth": 35,
-                    "barGap": "10%",
+                    "barGap": "20%",
                     "itemStyle": {
                         "normal": {
                             "color": "rgba(0,191,183,1)",
@@ -321,7 +321,7 @@
         renderBarChartByBot(botSelector)
 
         // 处理第二张图数据源
-        
+        var lineFirstTime = true
         var xAxisLineData = []
         var lineData = []
         var legendData = []
@@ -354,12 +354,12 @@
             lineChart.setOption(optionCaseLine, true)
         }
         // ["Case1", "Case2"]
+        
+        $(function() { $('#ckselector').fSelect(); });
         renderLineChart(optionCaseLine, Object.keys(allCases))
 
-        $(function() { $('#ckselector').fSelect(); });
-        
         // 鼠标移动动作
-        barChart.on('mouseover', function (params) {
+        barChart.on('click', function (params) {
             var name = params.name
             var singleLineData = []
             for (let index = 0; index < source.length; index++) {
@@ -375,9 +375,9 @@
             lineChart.setOption(optionCaseLine, true);
         });
         barChart.on('mouseout', function (params) {
-            optionCaseLine.series = lineData
-            optionCaseLine.legend.data = legendData
-            lineChart.setOption(optionCaseLine, true);
+            // optionCaseLine.series = lineData
+            // optionCaseLine.legend.data = legendData
+            // lineChart.setOption(optionCaseLine, true);
         });
 
 
@@ -397,6 +397,16 @@
                 var bot = $('#selector1').val()
                 renderBarChartByBot(bot)
                 
+                var bot1cases = {}
+                for (let index = 0; index < source.length; index++) {
+                    const src = source[index];
+                    var cs = src.case
+                    var bot = src.bot
+                    if (bot == "BOT1") {
+                        bot1cases[cs] = '1'
+                    }                    
+                }
+                renderLineChart(optionCaseLine, Object.keys(bot1cases))
             } else if (sel0 == "process") {
                 $("#ckselector").empty();
                 for (const cs in allCases) {
@@ -411,6 +421,16 @@
             if (sel0 == "bot") {
                 var bot = $('#selector1').val()
                 renderBarChartByBot(bot)
+                var bot1cases = {}
+                for (let index = 0; index < source.length; index++) {
+                    const src = source[index];
+                    var cs = src.case
+                    var bt = src.bot
+                    if (bt == bot) {
+                        bot1cases[cs] = '1'
+                    }                    
+                }
+                renderLineChart(optionCaseLine, Object.keys(bot1cases))
             } else if (sel0 == "process") {
                 
             }
@@ -419,6 +439,10 @@
             var sel0 =  $('#ckselector').val()+""
             console.log("==="+ sel0)
             var lines = sel0.split(',')
+            if (lineFirstTime) {
+                lines = Object.keys(allCases)
+                lineFirstTime = false
+            }
             selectedCases = lines
             renderLineChart(optionCaseLine, lines)
         })
