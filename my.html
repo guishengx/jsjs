@@ -24,7 +24,7 @@
         <div class="parent" style="background-color: white;">
             <select id="selector" class="child">
                 <option value="bot">By BOT</option>
-                <option value="case">By Process</option>
+                <option value="process">By Process</option>
             </select>
             <select id="selector1"  class="child">
                 <option value="1">BOT-1</option>
@@ -41,6 +41,7 @@
                 </select>
             </div>
             <!-- <div class="child">
+                http://www.freejs.net/demo/524/fSelect.js
                 <button type="button" class="btn btn-default pull-right" id="daterange-btn">
                     <span>
                       <i class="fa fa-calendar"></i> 日期选择
@@ -50,20 +51,14 @@
             </div> -->
         </div>    
     </div>
-    <!-- <div id="filter_section">
-        
-    </div> -->
     <div id="chart_section">
         <div id="barlineChart" style="width: 900px;height:400px;"></div> 
         <div id="linelineChart" style="width: 900px;height:400px;"></div> 
     </div>
     
     <script>
-        $(function() { $('#ckselector').fSelect(); });
-        $('#ckselector').change(function (e) {
-            var sel0 =  $('#ckselector').val()
-            console.log("==="+ sel0)
-        })
+        
+       
     </script>
     <script type="text/javascript">
         $('#daterange-btn').daterangepicker({
@@ -240,22 +235,22 @@
         // 原始数据源
         var source = []
         // source.push({case:"Case 1", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[10,20,30,40,50,60,70]})
-        source.push({case:"Case 1", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[10,20,30,40,50,60,70]})
-        source.push({case:"Case 1", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[10,20,30,40,50,60,70]})
-        source.push({case:"Case 2", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,50,40,10,80,90,80]})
-        source.push({case:"Case 2", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,50,40,10,80,90,80]})
-        source.push({case:"Case 2", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,50,40,10,80,90,80]})
-        source.push({case:"Case 3", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[16,20,50,90,50,50,70]})
-        source.push({case:"Case 3", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[16,20,50,90,50,50,70]})
-        source.push({case:"Case 3", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[16,20,50,90,50,50,70]})
-        source.push({case:"Case 4", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[18,40,20,80,20,20,80]})
-        source.push({case:"Case 4", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[18,40,20,80,20,20,80]})
-        source.push({case:"Case 4", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[18,40,20,80,20,20,80]})
-        source.push({case:"Case 5", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
-        source.push({case:"Case 5", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
-        source.push({case:"Case 5", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
-        source.push({case:"Case 6", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
-        source.push({case:"Case 6", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case1", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[10,20,30,40,50,60,70]})
+        source.push({case:"Case1", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[10,20,30,40,50,60,70]})
+        source.push({case:"Case2", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,50,40,10,80,90,80]})
+        source.push({case:"Case2", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,50,40,10,80,90,80]})
+        source.push({case:"Case2", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,50,40,10,80,90,80]})
+        source.push({case:"Case3", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[16,20,50,90,50,50,70]})
+        source.push({case:"Case3", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[16,20,50,90,50,50,70]})
+        source.push({case:"Case3", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[16,20,50,90,50,50,70]})
+        source.push({case:"Case4", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[18,40,20,80,20,20,80]})
+        source.push({case:"Case4", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[18,40,20,80,20,20,80]})
+        source.push({case:"Case4", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[18,40,20,80,20,20,80]})
+        source.push({case:"Case5", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case5", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case5", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case6", bot:"BOT1", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
+        source.push({case:"Case6", bot:"BOT2", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
         // source.push({case:"Case 6", bot:"BOT3", totalTimes:[100,100,100,100,100,100,100], successTimes:[30,90,70,70,50,90,70]})
 
         var allCases = {}
@@ -326,29 +321,43 @@
         renderBarChartByBot(botSelector)
 
         // 处理第二张图数据源
+        
         var xAxisLineData = []
         var lineData = []
         var legendData = []
-        for (let index = 0; index < source.length; index++) {
-            const src = source[index];
-            var title = src.case
-            lineData.push({name:title, type:'line', data:src.successTimes})
-            legendData.push(title)
+        var selectedCases = []
+        function renderLineChart(chart, lines) {
+            lineData = []
+                    legendData = []
+            for (let index = 0; index < source.length; index++) {
+                const src = source[index];
+                var title = src.case
+                var found = false
+                for (const line in lines) {
+                    if (lines[line] == title) {
+                        found = true
+                        break
+                    }
+                }
+                if (found) {                    
+                    lineData.push({name:title, type:'line', data:src.successTimes})
+                    legendData.push(title)
+                }                
+            }
+            xAxisLineData = []
+            for (let index = 1; index <= source[0].successTimes.length; index++) {
+                xAxisLineData.push("Day "+index) // 横轴
+            }
+            optionCaseLine.xAxis.data = xAxisLineData
+            optionCaseLine.series = lineData
+            optionCaseLine.legend.data = legendData 
+            lineChart.setOption(optionCaseLine, true)
         }
-        for (let index = 1; index <= source[0].successTimes.length; index++) {
-            xAxisLineData.push("Day "+index) // 横轴
-        }
-        optionCaseLine.xAxis.data = xAxisLineData
-        optionCaseLine.series = lineData
-        optionCaseLine.legend.data = legendData  
+        // ["Case1", "Case2"]
+        renderLineChart(optionCaseLine, Object.keys(allCases))
+
+        $(function() { $('#ckselector').fSelect(); });
         
-        function renderLineChart(chart, datas) {
-            optionCaseLine.series = datas
-            lineChart.setOption(optionCaseLine)
-        }
-
-        renderLineChart(optionCaseLine, lineData)
-
         // 鼠标移动动作
         barChart.on('mouseover', function (params) {
             var name = params.name
@@ -389,10 +398,12 @@
                 renderBarChartByBot(bot)
                 
             } else if (sel0 == "process") {
-                $("#process_checkbox").empty();
+                $("#ckselector").empty();
                 for (const cs in allCases) {
-                    $("#selector1").append("<option value="+allCases[cs]+">"+"<label><input name='Fruit' type='checkbox' value='"+cs+"> />苹果 </label>"+"</option>");
-                }                
+                    $("#ckselector").append("<option value="+cs+">"+cs+"</option>");
+                }     
+                $('#ckselector').fSelect('reload');     
+                renderLineChart(optionCaseLine, Object.keys(allCases))
             }               
         });
         $('#selector1').change(function (e) {
@@ -404,6 +415,13 @@
                 
             }
         });
+        $('#ckselector').change(function (e) {
+            var sel0 =  $('#ckselector').val()+""
+            console.log("==="+ sel0)
+            var lines = sel0.split(',')
+            selectedCases = lines
+            renderLineChart(optionCaseLine, lines)
+        })
     </script>
 </body>
 </html>

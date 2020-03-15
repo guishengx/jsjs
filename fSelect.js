@@ -11,7 +11,7 @@
                 numDisplayed: 3,
                 overflowText: '{n} selected',
                 searchText: 'Search',
-                showSearch: true
+                showSearch: false
             }, options);
         }
 
