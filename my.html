@@ -2,55 +2,65 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>ECharts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Statistics</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/daterangepicker.css">
-
-    <!-- 引入 echarts.js -->
-    <script src="jquery.js"></script>
-    <script type="text/javascript" src="echarts.js"></script>
-    <script src="package.js"></script>
+    <link rel="stylesheet" href="my.css">
+    <link href="fSelect.css" rel="stylesheet" type="text/css">
+    <script src="jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="echarts.js" type="text/javascript"></script>
+    <script src="package.js" type="text/javascript"></script>
+    <script src="fSelect.js" type="text/javascript"></script>    
+    <script src="js/moment.js" type="text/javascript"></script>
+    <script src="js/daterangepicker.js" type="text/javascript"></script>
+    
 </head>
 <body>
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-	<div class="col-sm-9">		
-	</div>    
-    <div>
-        <div>
-			<button type="button" class="btn btn-default pull-right" id="daterange-btn">
-				<span>
-				  <i class="fa fa-calendar"></i> 日期选择
-				</span>
-				<i class="fa fa-caret-down"></i>
-			  </button>
-		</div>
-        <select id="selector">
-            <option value="bot">By BOT</option>
-            <option value="case">By Process</option>
-        </select>
-        <select id="selector1">
-            <option value="1">BOT-1</option>
-            <option value="2">BOT-2</option>
-            <option value="3">BOT-3</option>
-            <option value="4">BOT-4</option>
-        </select>
-        <form id="checkbox" action="" method="get">
-            您喜欢的水果？<br /><br />
-            <label><input name="Fruit" type="checkbox" value="1" />苹果 </label>
-            <label><input name="Fruit" type="checkbox" value="2" />桃子 </label>
-            <label><input name="Fruit" type="checkbox" value="3" />香蕉 </label>
-            <label><input name="Fruit" type="checkbox" value="4" />梨 </label>
-            </form>
-        <div>
-            <div id="barlineChart" style="width: 900px;height:400px;"></div> 
-            <div id="linelineChart" style="width: 900px;height:400px;"></div> 
-        </div>        
+    <div id="header">
+        <h1>Case Run Result Statistics</h1>
+    </div>
+    <div class="parentWrap">
+        <div class="parent" style="background-color: white;">
+            <select id="selector" class="child">
+                <option value="bot">By BOT</option>
+                <option value="case">By Process</option>
+            </select>
+            <select id="selector1"  class="child">
+                <option value="1">BOT-1</option>
+                <option value="2">BOT-2</option>
+                <option value="3">BOT-3</option>
+                <option value="4">BOT-4</option>
+            </select>
+            <div class="container"  class="child">
+                <select id="demo" multiple="multiple" >
+                    <option value="cp">C++</option>
+                        <option value="cs">C#</option>
+                        <option value="oc">Object C</option>
+                        <option value="c">C</option>
+                </select>
+            </div>
+            <!-- <div class="child">
+                <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                    <span>
+                      <i class="fa fa-calendar"></i> 日期选择
+                    </span>
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+            </div> -->
+        </div>    
+    </div>
+    <!-- <div id="filter_section">
+        
+    </div> -->
+    <div id="chart_section">
+        <div id="barlineChart" style="width: 900px;height:400px;"></div> 
+        <div id="linelineChart" style="width: 900px;height:400px;"></div> 
     </div>
     
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/moment.js"></script>
-    <script type="text/javascript" src="js/daterangepicker.js"></script>
+    <script>
+        $(function() { $('#demo').fSelect(); });
+    </script>
     <script type="text/javascript">
         $('#daterange-btn').daterangepicker({
                 ranges: {
@@ -261,9 +271,14 @@
             $("#selector").append("<option value='process'>By Process</option>");
 
             $("#selector1").empty();
+            var bots = []
             for (const bot in allBots) {   
-                $("#selector1").append("<option value="+bot+">"+bot+"</option>");
+                bots.push(bot)                
             }                  
+            bots = bots.sort()
+            for (const bt in bots) {
+                $("#selector1").append("<option value="+bots[bt]+">"+bots[bt]+"</option>");
+            }
         }
         
         // 处理第一张图数据源      
@@ -321,30 +336,14 @@
         }
         optionCaseLine.xAxis.data = xAxisLineData
         optionCaseLine.series = lineData
-        optionCaseLine.legend.data = legendData
-        // lineChart.setOption(optionCaseLine);    
-
-
+        optionCaseLine.legend.data = legendData  
         
         function renderLineChart(chart, datas) {
-            // var option = lineChart.getOption()
             optionCaseLine.series = datas
             lineChart.setOption(optionCaseLine)
         }
 
         renderLineChart(optionCaseLine, lineData)
-
-        $("input:checkbox").each(function () {
-            $(this).click(function () {
-                var action = 'checked'
-                if ($(this)[0].checked == true) {
-                    action = 'checked'
-                } else {
-                    action = 'unchecked'
-                }
-                console.log($(this).val()+" - "+action); 
-            })
-        })
 
         // 鼠标移动动作
         barChart.on('mouseover', function (params) {
@@ -356,7 +355,7 @@
                 if(name == title) {
                     singleLineData.push({name:title, type:'line', data:src.successTimes})
                     break
-                }                
+                }
             }
             optionCaseLine.series = singleLineData
             optionCaseLine.legend.data = [name]
@@ -374,20 +373,23 @@
             var sel0 =  $('#selector').val()
             if (sel0 == "bot") {
                 $("#selector1").empty();
+                var bots = []
                 for (const bot in allBots) {   
-                    $("#selector1").append("<option value="+bot+">"+bot+"</option>");
-                } 
+                    bots.push(bot)                
+                }                  
+                bots = bots.sort()
+                for (const bt in bots) {
+                    $("#selector1").append("<option value="+bots[bt]+">"+bots[bt]+"</option>");
+                }
                 var bot = $('#selector1').val()
                 renderBarChartByBot(bot)
+                
             } else if (sel0 == "process") {
-                $("#selector1").append("<option value='1'>CASE-1</option>");
-                $("#selector1").append("<option value='2'>CASE-2</option>");
-                $("#selector1").append("<option value='3'>CASE-3</option>");
-                $("#selector1").append("<option value='4'>CASE-4</option>");
-                option3.series = cases[0];
-                lineChart.setOption(optionCaseLine);
-            }   
-            
+                $("#process_checkbox").empty();
+                for (const cs in allCases) {
+                    $("#selector1").append("<option value="+allCases[cs]+">"+"<label><input name='Fruit' type='checkbox' value='"+cs+"> />苹果 </label>"+"</option>");
+                }                
+            }               
         });
         $('#selector1').change(function (e) {
             var sel0 =  $('#selector').val()            
@@ -395,10 +397,8 @@
                 var bot = $('#selector1').val()
                 renderBarChartByBot(bot)
             } else if (sel0 == "process") {
-                // src = cases
+                
             }
-            // optionCaseLine.series = src[$('#selector1').val()];
-            // lineChart.setOption(optionCaseLine);
         });
     </script>
 </body>
