@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Statistics</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/daterangepicker.css">
+    <link rel="stylesheet" href="css/daterangepicker.css"> 
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="my.css">
     <link href="fSelect.css" rel="stylesheet" type="text/css">
     <script src="jquery-1.11.3.min.js" type="text/javascript"></script>
@@ -40,20 +41,19 @@
                     <option value="c">C</option>
                 </select>
             </div>
-            <!-- <div class="child">
-                http://www.freejs.net/demo/524/fSelect.js
-                <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+            <div class="child">
+                <button type="button" class="button" id="daterange-btn">
                     <span>
                       <i class="fa fa-calendar"></i> 日期选择
                     </span>
                     <i class="fa fa-caret-down"></i>
                   </button>
-            </div> -->
+            </div>
         </div>    
     </div>
     <div id="chart_section">
-        <div id="barlineChart" style="width: 900px;height:400px;"></div> 
-        <div id="linelineChart" style="width: 900px;height:400px;"></div> 
+        <div id="barlineChart" style="width: 50%;height:400px;float: left;"></div> 
+        <div id="linelineChart" style="width: 50%;height:400px;float: left;"></div> 
     </div>
     
     <script>
@@ -143,7 +143,7 @@
                 "type": "category",
                 "axisLine": {
                     lineStyle: {
-                        color: '#90979c'
+                        color: '#666666'
                     }
                 },
                 "splitLine": {
@@ -157,6 +157,9 @@
                 },
                 "axisLabel": {
                     "interval": 0,
+                    "textStyle": {
+                        "color": '#006666'   //这里用参数代替了
+                        }
                 },
                 "data": [],
             }],
@@ -167,7 +170,7 @@
                 },
                 "axisLine": {
                     lineStyle: {
-                        color: '#90979c'
+                        color: '#555555'
                     }
                 },
                 "axisTick": {
@@ -186,6 +189,7 @@
             }],
             "series": [{
                     "name": "Success",
+                    "selectedMode" : 'multiple',
                     "type": "bar",
                     "stack": "总量",
                     "barMaxWidth": 35,
@@ -196,7 +200,7 @@
                             "label": {
                                 "show": true,
                                 "textStyle": {
-                                    "color": "#fff"
+                                    "color": "#5555ff"
                                 },
                                 "position": "inside",
                                 formatter: function(p) {
@@ -204,12 +208,21 @@
                                     return a+"%";                       
                                 }
                             }
+                        },
+                        emphasis: {
+                            color:['#f7af15'],
+                            barBorderWidth: 1,
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 0,
+                            shadowColor: 'rgba(0,0,0,0.5)'
                         }
                     },
                     "data": [],
                 },
                 {
                     "name": "Failure",
+                    "selectedMode" : 'multiple',
                     "type": "bar",
                     "stack": "总量",
                     "barMaxWidth": 35,                    
@@ -373,6 +386,25 @@
             optionCaseLine.series = singleLineData
             optionCaseLine.legend.data = [name]
             lineChart.setOption(optionCaseLine, true);
+            var emphasis = {
+                            color:['#f7af15'],
+                            barBorderWidth: 1,
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 0,
+                            shadowColor: 'rgba(0.5,0,0,0.5)'
+                        }
+            optionTotal.series[0].itemStyle.emphasis =  emphasis
+            optionTotal.series[0].itemStyle.normal.color = '#f7af15'
+            // function (param) {
+            //     if(params.dataIndex == param.dataIndex && $("#parent_dim_"+curr_dim).val()!=params.name){
+            //         return '#FF3333';
+            //     } else {
+            //         return '#00FFCC';
+            //     }               
+            // };
+            
+            barChart.setOption(optionTotal, true)
         });
         barChart.on('mouseout', function (params) {
             // optionCaseLine.series = lineData
@@ -385,6 +417,8 @@
             $("#selector1").empty();
             var sel0 =  $('#selector').val()
             if (sel0 == "bot") {
+                var selector1=document.getElementById("selector1"); 
+                selector1.setAttribute("style","display:none"); 
                 $("#selector1").empty();
                 var bots = []
                 for (const bot in allBots) {   
@@ -408,6 +442,8 @@
                 }
                 renderLineChart(optionCaseLine, Object.keys(bot1cases))
             } else if (sel0 == "process") {
+                var selector1=document.getElementById("selector1"); 
+                selector1.setAttribute("style","display"); 
                 $("#ckselector").empty();
                 for (const cs in allCases) {
                     $("#ckselector").append("<option value="+cs+">"+cs+"</option>");
