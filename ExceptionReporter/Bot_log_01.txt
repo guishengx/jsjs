@@ -1,0 +1,5 @@
+07、30、2019 21：40：00 ： WARNING - An error occurred on EmailLogs module. Error: could not find a part of the path 'C:\Users\pl77456\Documnets\AAE_V11\Automation Anywhere Files\My Docs\ISG\TPAM\TPAMConfig.xml'. | 91
+------------------------------------------------------------------------------------------
+******Error Type=Error;Error Time=$Date$;Error Task=$AATaskName$;Line Number=$Error Line Number$;Error Description=$Error Description$;Module Status=$module1status$_Failed******
+******Error Type=Error;Error Time=$Date$;Error Task=$AATaskName$;Line Number=$Error Line Number$;Error Description=$Error Description$;Module Status=$module1status$_Failed******
+******Error Type=Error;Error Time=$Date$;Error Task=$AATaskName$;Line Number=$Error Line Number$;Error Description=$Error Description$;Module Status=$module1status$_Failed******
