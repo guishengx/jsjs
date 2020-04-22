@@ -1,5 +1,9 @@
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import java.io.IOException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -7,7 +11,7 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, JsonMappingException {
+    public static void main(String[] args) throws IOException {
         String filePath = "C:\\Users\\neo\\Bot_log_01.txt";
         File file = new File(filePath);
 
@@ -83,7 +87,13 @@ public class Main {
 //        } catch (JsonMappingException e) {
 //            e.printStackTrace();
 //        }
-        mapper.writeValue(new FileWriter("C:\\Users\\neo\\b.txt"), errorObjects);
+        try {
+            mapper.writeValue(new FileWriter("C:\\Users\\neo\\b.txt"), errorObjects);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("Hello World!");
     }
